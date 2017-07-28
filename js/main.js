@@ -14,6 +14,9 @@ var studentArray = [
   }
 ];
 var raffleArray;
+var firstName;
+var lastName;
+var changeStickers;
 
 function renderStudentObject(firstName, lastName, stickers) {
   return {
@@ -34,39 +37,46 @@ function studentExists(firstName, lastName) {
   }, false);
 }
 
-function addStudentOrStickers(firstName, lastName, addStickers) {
+function addStudentOrStickers(firstName, lastName, changeStickers) {
   firstName = modifyCase(firstName);
   lastName = modifyCase(lastName);
-  addStickers = Number(addStickers);
+  changeStickers = Number(changeStickers);
   if(!studentExists(firstName, lastName)) {
-    studentArray.push(renderStudentObject(firstName, lastName, addStickers));
+    studentArray.push(renderStudentObject(firstName, lastName, changeStickers));
   } else {
     studentArray.forEach(function(student) {
       if(student['firstName'] === firstName && student['lastName'] === lastName) {
-        student.stickers += addStickers;
+        student.stickers += changeStickers;
       }
     });
   }
   refreshRaffleArray();
 }
 
-function clickToAddStudentInfo() {
-  var firstName = $("#firstName").val();
-  var lastName = $("#lastName").val();
-  var addStickers = $("#addStickers").val();
-  console.log(firstName + ', ' + lastName + ', ' + addStickers)
+function validForm() {
+  firstName = $("#firstName").val();
+  lastName = $("#lastName").val();
+  changeStickers = $("#changeStickers").val();
   if(firstName === undefined || !(/^[\w\-]+$/.test(firstName))) {
     alert('Please enter a valid first name. (accepts characters a-z and hyphens)');
-    return;
+    return false;
   } else if(lastName === undefined || !(/^[\w\-]+$/.test(lastName))) {
     alert('Please enter a valid last name. (accepts characters a-z and hyphens)');
-    return;
-  } else if(addStickers === undefined || !(/[\d]+/.test(addStickers))) {
-    alert('Please enter a valid number of sticklers. (accepts digits 0-9)');
-    return;
+    return false;
+  } else if(changeStickers === undefined || !(/[\d]+/.test(changeStickers))) {
+    alert('Please enter a valid number of stickers. (accepts digits 0-9)');
+    return false;
   } else {
     alert('Student information successfully updated!');
-    return addStudentOrStickers(firstName, lastName, addStickers);
+    return true;
+  }
+}
+
+function clickToAddStudentInfo() {
+  $("#studentList").addClass('hidden');
+  var valid = validForm();
+  if(valid) {
+    addStudentOrStickers(firstName, lastName, changeStickers);
   }
 }
 
@@ -81,11 +91,12 @@ function refreshRaffleArray() {
 }
 
 function generateRan() {
+  $("#studentList").addClass('hidden');
   if(raffleArray.length === 0) {
     alert('No more names to display!');
     return;
   }
-  var randomIndex = Math.floor(Math.random() * raffleArra y.length);
+  var randomIndex = Math.floor(Math.random() * raffleArray.length);
   var chosenStudent = raffleArray[randomIndex];
   raffleArray.splice(randomIndex, 1);
   var li = $("<li>" + chosenStudent + "</li>")
@@ -93,26 +104,65 @@ function generateRan() {
   $(li).addClass("text-center");
 }
 
-function removeStudent() {
-
+function validRemoveStudentForm() {
+  if(firstName === undefined || !(/^[\w\-]+$/.test(firstName))) {
+    alert('Please enter a valid first name. (accepts characters a-z and hyphens)');
+    return false;
+  } else if(lastName === undefined || !(/^[\w\-]+$/.test(lastName))) {
+    alert('Please enter a valid last name. (accepts characters a-z and hyphens)');
+    return false;
+  } else {
+    alert('Request processed.');
+    return true;
+  }
 }
 
-function removeStickers() {
+function removeStudent() {
+  $("#studentList").addClass('hidden');
+  firstName = $("#firstName").val();
+  lastName = $("#lastName").val();
+  var valid = validRemoveStudentForm();
+  if(valid) {
+  firstName = modifyCase(firstName);
+  lastName = modifyCase(lastName);
+    studentArray.forEach(function(student, index) {
+      if(student.firstName === firstName && student.lastName === lastName) {
+        studentArray.splice(index, 1);
+      }
+    });
+  }
+  refreshRaffleArray();
+}
 
+function removeStickers(firstName, lastName, changeStickers) {
+  firstName = modifyCase(firstName);
+  lastName = modifyCase(lastName);
+  studentArray.forEach(function(student) {
+    if(student.firstName === firstName && student.lastName === lastName) {
+      student.stickers -= Number(changeStickers);
+    }
+  });
+  refreshRaffleArray();
 }
 
 function displayStudentList() {
+  $("#studentList").html('');
+  $("#studentList").toggleClass("hidden");
   studentArray.forEach(function(student) {
-    $("#studentList").toggleClass("hidden");
-    var li = $("<li>" + chosenStudent + "</li>")
-    // $(li).appendTo("ol");
-    $(li).addClass("text-center");
+    var li = $("<li>" + '<span class="bold">' + student.firstName + ' ' + student.lastName + '</span> (' + student.raffleName + ') <br><span class="bold">Stickers:</span> ' + student.stickers + "</li>")
+    $(li).appendTo("#studentList");
   });
 }
 
 $("#updateStudentInfo").click(clickToAddStudentInfo);
 $(document).ready(refreshRaffleArray);
 $("#startOver").click(refreshRaffleArray);
-$("#removeStickers").click(removeStickers);
+$("#removeStickers").click(function() {
+  $("#studentList").addClass('hidden');
+  var valid = validForm();
+  if(valid) {
+    removeStickers(firstName, lastName, changeStickers);
+  }
+});
 $("#removeStudent").click(removeStudent);
 $("#displayStudentList").click(displayStudentList);
