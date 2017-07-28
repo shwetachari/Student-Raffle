@@ -1,22 +1,34 @@
-var studentArray = [
-  // sample data
-  {
-    firstName : 'Charles',
-    lastName : 'Darwin',
-    stickers: 7,
-    raffleName : 'Charles D.',
-  },
-  {
-    firstName : 'Marie',
-    lastName : 'Curie',
-    stickers: 10,
-    raffleName : 'Marie C.',
-  }
-];
+var studentArray;
 var raffleArray;
 var firstName;
 var lastName;
 var changeStickers;
+
+if (localStorage["students"] !== "undefined") {
+  studentArray = JSON.parse(localStorage["students"]);
+} else {
+  studentArray = [
+    // sample data
+    {
+      firstName : 'Charles',
+      lastName : 'Darwin',
+      stickers: 7,
+      raffleName : 'Charles D.',
+    },
+    {
+      firstName : 'Marie',
+      lastName : 'Curie',
+      stickers: 10,
+      raffleName : 'Marie C.',
+    }
+  ];
+}
+// Store
+function store() {
+  if(studentArray !== undefined) {
+    localStorage['students'] = JSON.stringify(studentArray);
+  }
+}
 
 function renderStudentObject(firstName, lastName, stickers) {
   return {
@@ -88,6 +100,7 @@ function refreshRaffleArray() {
     }
   });
   $("ol").html('');
+  store();
 }
 
 function generateRan() {
