@@ -11,12 +11,19 @@ body {
   overflow-y: scroll;
 }
 
+.hidden {
+  display:none;
+}
+
 .left-column {
   position:fixed;
 }
 
 .form {
-  margin-top: 100px;
+  margin-top:50px;
+  padding: 30px;
+  border-top: 2px solid rgb(137, 172, 140);
+  /*border-right: 2px solid rgb(137, 172, 140);*/
 }
 
 .form input {
@@ -37,7 +44,7 @@ body {
   text-overflow: ellipsis;
 }
 
-#updateStudentInfo {
+#updateStudentInfo, #removeStickers, #removeStudent, #displayStudentList {
   margin-top:10px;
   padding:20px;
   font-size:20px;
@@ -59,7 +66,7 @@ ol {
   margin-bottom:30px;
 }
 
-li {
+ol li {
   padding: 30px 10px;
   margin-bottom:20px;
   background-image: url('../img/raffleticket.png');
@@ -71,9 +78,19 @@ li {
   color:white;
 }
 
+#studentList {
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+  border-left: 5px solid rgb(137, 172, 140);
+}
+
 @media (max-width: 770px) {
   .left-column {
     position:relative !important;
+  }
+  .form {
+    border:none;
   }
   ol {
     position:relative !important;
@@ -81,7 +98,7 @@ li {
   #pickStudent {
     margin-top:0px;
   }
-  #pickStudent, #startOver {
+  .btn {
     font-size:25px !important;
   }
   #startOver {
@@ -90,7 +107,7 @@ li {
 }
 
 @media (max-width:1030px) {
-  #pickStudent, #startOver {
+  #pickStudent, #startOver, #updateStudentInfo, #displayStudentList {
     font-size:18px;
   }
 }

@@ -24,10 +24,16 @@
 		  <input type="name" class="form-control col-xs-12" id="firstName" placeholder="First Name">
 		  <input type="name" class="form-control col-xs-12" id="lastName" placeholder="Last Name">
 		  <input type="number" class="form-control col-xs-12" id="addStickers" placeholder="Number of Stickers">
-		  <button id="updateStudentInfo" type="submit" class="btn col-xs-12">Update Student Info</button>
+		  <button id="updateStudentInfo" type="submit" class="btn col-xs-12">Add Student Info</button>
+			<button id="removeStickers" type="submit" class="btn col-xs-12">Remove Stickers</button>
+			<button id="removeStudent" type="submit" class="btn col-xs-12">Remove Student</button>
+			<button id="displayStudentList" type="submit" class="btn col-xs-12">Display Student List</button>
 		</div>
 	</div>
 
+	<ul id="studentList" class="col-sm-4 text-center col-sm-offset-7 col-xs-10 col-xs-offset-1 hidden">
+
+	</ul>
 	<ol reversed class="col-sm-4 text-center col-sm-offset-7 col-xs-10 col-xs-offset-1" id="ol">
 		<!-- append lis here -->
 	</ol>

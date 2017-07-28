@@ -85,7 +85,7 @@ function generateRan() {
     alert('No more names to display!');
     return;
   }
-  var randomIndex = Math.floor(Math.random() * raffleArray.length);
+  var randomIndex = Math.floor(Math.random() * raffleArra y.length);
   var chosenStudent = raffleArray[randomIndex];
   raffleArray.splice(randomIndex, 1);
   var li = $("<li>" + chosenStudent + "</li>")
@@ -93,6 +93,26 @@ function generateRan() {
   $(li).addClass("text-center");
 }
 
+function removeStudent() {
+
+}
+
+function removeStickers() {
+
+}
+
+function displayStudentList() {
+  studentArray.forEach(function(student) {
+    $("#studentList").toggleClass("hidden");
+    var li = $("<li>" + chosenStudent + "</li>")
+    // $(li).appendTo("ol");
+    $(li).addClass("text-center");
+  });
+}
+
 $("#updateStudentInfo").click(clickToAddStudentInfo);
 $(document).ready(refreshRaffleArray);
 $("#startOver").click(refreshRaffleArray);
+$("#removeStickers").click(removeStickers);
+$("#removeStudent").click(removeStudent);
+$("#displayStudentList").click(displayStudentList);
