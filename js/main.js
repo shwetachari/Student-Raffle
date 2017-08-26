@@ -4,9 +4,7 @@ var firstName;
 var lastName;
 var changeStickers;
 
-if (localStorage["students"] !== "undefined") {
-  studentArray = JSON.parse(localStorage["students"]);
-} else {
+if(localStorage["students"] === "undefined" || localStorage["students"] === undefined) {
   studentArray = [
     // sample data
     {
@@ -22,7 +20,10 @@ if (localStorage["students"] !== "undefined") {
       raffleName : 'Marie C.',
     }
   ];
+} else {
+  studentArray = JSON.parse(localStorage["students"]);
 }
+
 // Store
 // Each student takes up ~0.15KB local storage
 // Local Storage Limit = 4KB
